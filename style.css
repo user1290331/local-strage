@@ -1,30 +1,35 @@
-/* LocalStorage Manager 확장 스타일 */
+/* LocalStorage Manager - Light Mode Style */
 
-/* 메인 컨테이너 */
+/* ========== 메인 컨테이너 ========== */
 .lsm-container {
     display: flex;
     flex-direction: column;
-    height: 70vh;
-    min-height: 500px;
-    background-color: var(--SmartThemeBlurTintColor);
-    border-radius: 10px;
+    height: 75vh;
+    min-height: 550px;
+    background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    border: 1px solid #e0e0e0;
 }
 
-/* 헤더 */
+/* ========== 헤더 ========== */
 .lsm-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    background-color: var(--SmartThemeBlurTintColor);
-    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    padding: 16px 24px;
+    background: linear-gradient(90deg, #f0f4f8, #e8ecf0);
+    border-bottom: 1px solid #d0d5dd;
+    flex-shrink: 0;
 }
 
 .lsm-header h2 {
     margin: 0;
     font-size: 1.3em;
-    color: var(--SmartThemeBodyColor);
+    font-weight: 600;
+    color: #1a1a2e;
+    letter-spacing: 0.3px;
 }
 
 .lsm-header-actions {
@@ -32,99 +37,228 @@
     gap: 10px;
 }
 
-/* 메인 영역 */
+.lsm-header-actions .menu_button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 0.85em;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid #d0d5dd;
+    color: #344054;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.lsm-header-actions .menu_button:hover {
+    background: #f9fafb;
+    border-color: #98a2b3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+.lsm-header-actions .lsm-danger-btn {
+    background: #fef3f2;
+    border-color: #fda29b;
+    color: #b42318;
+}
+
+.lsm-header-actions .lsm-danger-btn:hover {
+    background: #fee4e2;
+    border-color: #f97066;
+}
+
+/* ========== 메인 영역 ========== */
 .lsm-main {
     display: flex;
     flex: 1;
     overflow: hidden;
 }
 
-/* 사이드바 */
+/* ========== 사이드바 ========== */
 .lsm-sidebar {
-    width: 280px;
-    min-width: 200px;
+    width: 300px;
+    min-width: 260px;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid var(--SmartThemeBorderColor);
-    background-color: var(--black30a);
+    background: #f8f9fa;
+    border-right: 1px solid #e5e7eb;
 }
 
 .lsm-search {
-    padding: 10px;
-    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    padding: 12px 14px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .lsm-search input {
     width: 100%;
-    padding: 8px 12px;
-    border: 1px solid var(--SmartThemeBorderColor);
-    border-radius: 5px;
-    background-color: var(--SmartThemeBlurTintColor);
-    color: var(--SmartThemeBodyColor);
+    padding: 10px 14px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #1a1a2e;
     font-size: 0.9em;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.lsm-search input::placeholder {
+    color: #98a2b3;
 }
 
 .lsm-search input:focus {
     outline: none;
-    border-color: var(--SmartThemeQuoteColor);
+    border-color: #528bff;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(82, 139, 255, 0.15);
 }
 
 .lsm-key-actions {
     display: flex;
-    gap: 5px;
-    padding: 10px;
-    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .lsm-key-actions button {
     flex: 1;
-    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 12px;
     font-size: 0.85em;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid #d0d5dd;
+    color: #344054;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-/* 키 목록 */
+.lsm-key-actions button:hover {
+    background: #f9fafb;
+    border-color: #98a2b3;
+    color: #1a1a2e;
+}
+
+/* ========== 키 목록 ========== */
 .lsm-key-list {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    padding: 6px 8px;
+}
+
+/* 카테고리 그룹 */
+.lsm-category {
+    margin-bottom: 4px;
+}
+
+.lsm-category-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    background: #eef1f5;
+    border: 1px solid #d0d5dd;
+    margin-bottom: 2px;
+    transition: all 0.15s ease;
+}
+
+.lsm-category-header:hover {
+    background: #e4e8ed;
+}
+
+.lsm-category-toggle {
+    font-size: 0.7em;
+    color: #667085;
+    transition: transform 0.2s ease;
+    width: 12px;
+}
+
+.lsm-category.collapsed .lsm-category-toggle {
+    transform: rotate(-90deg);
+}
+
+.lsm-category-name {
+    flex: 1;
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #475467;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.lsm-category-count {
+    font-size: 0.75em;
+    color: #667085;
+    background: #ffffff;
+    padding: 2px 8px;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+}
+
+.lsm-category-items {
+    margin-left: 8px;
+    border-left: 2px solid #e5e7eb;
+    padding-left: 4px;
+}
+
+.lsm-category.collapsed .lsm-category-items {
+    display: none;
 }
 
 .lsm-key-item {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     padding: 10px 12px;
-    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    margin: 2px 0;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
 }
 
 .lsm-key-item:hover {
-    background-color: var(--SmartThemeBlurTintColor);
+    background: #f0f4f8;
+    border-color: #d0d5dd;
 }
 
 .lsm-key-item.selected {
-    background-color: var(--SmartThemeQuoteColor);
-    color: var(--SmartThemeBodyColor);
+    background: linear-gradient(135deg, #e8f0fe, #d4e4fc);
+    border-color: #528bff;
 }
 
-.lsm-key-item.selected .lsm-key-name,
+.lsm-key-item.selected .lsm-key-name {
+    color: #1a56db;
+    font-weight: 500;
+}
+
 .lsm-key-item.selected .lsm-key-size {
-    color: inherit;
+    color: #4b6cb7;
 }
 
 .lsm-type-badge {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     font-size: 0.75em;
-    font-weight: bold;
-    border-radius: 4px;
-    background-color: var(--SmartThemeBorderColor);
-    color: var(--SmartThemeBodyColor);
+    font-weight: 700;
+    border-radius: 5px;
     flex-shrink: 0;
+    font-family: 'Consolas', 'Monaco', monospace;
+    background: #e8f0fe;
+    color: #1a56db;
 }
 
 .lsm-key-name {
@@ -132,136 +266,205 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: 0.9em;
-    color: var(--SmartThemeBodyColor);
+    font-size: 0.88em;
+    color: #344054;
+    font-family: 'Consolas', 'Monaco', monospace;
 }
 
 .lsm-key-size {
-    font-size: 0.75em;
-    color: var(--grey50);
+    font-size: 0.72em;
+    color: #667085;
     flex-shrink: 0;
+    font-weight: 500;
+    padding: 3px 7px;
+    background: #f2f4f7;
+    border-radius: 4px;
 }
 
-/* 통계 */
+/* ========== 통계 ========== */
 .lsm-stats {
-    padding: 10px;
+    padding: 12px 14px;
     font-size: 0.8em;
-    color: var(--grey50);
+    color: #667085;
     text-align: center;
-    border-top: 1px solid var(--SmartThemeBorderColor);
-    background-color: var(--SmartThemeBlurTintColor);
+    border-top: 1px solid #e5e7eb;
+    background: #f0f2f5;
+    font-weight: 500;
 }
 
-/* 에디터 영역 */
+/* ========== 에디터 영역 ========== */
 .lsm-editor {
     flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    background: #ffffff;
 }
 
 .lsm-editor-header {
     display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 10px 15px;
-    border-bottom: 1px solid var(--SmartThemeBorderColor);
-    background-color: var(--SmartThemeBlurTintColor);
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid #e5e7eb;
+    background: #f8f9fa;
+    flex-shrink: 0;
 }
 
 .lsm-editor-title {
     flex: 1;
-    font-weight: bold;
-    color: var(--SmartThemeBodyColor);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    min-width: 0;
+}
+
+.lsm-editor-title-full {
+    display: block;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: #1a1a2e;
+    font-family: 'Consolas', 'Monaco', monospace;
+    word-break: break-all;
+    line-height: 1.4;
+}
+
+.lsm-editor-title-empty {
+    color: #98a2b3;
+    font-style: italic;
+    font-size: 0.9em;
 }
 
 .lsm-editor-tabs {
     display: flex;
-    gap: 5px;
+    gap: 3px;
+    background: #e5e7eb;
+    padding: 4px;
+    border-radius: 8px;
+    flex-shrink: 0;
 }
 
 .lsm-tab {
-    padding: 6px 12px;
-    border: 1px solid var(--SmartThemeBorderColor);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 14px;
+    border: none;
     border-radius: 5px;
-    background-color: transparent;
-    color: var(--SmartThemeBodyColor);
+    background: transparent;
+    color: #667085;
     cursor: pointer;
     font-size: 0.85em;
-    transition: all 0.2s;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .lsm-tab:hover {
-    background-color: var(--SmartThemeBorderColor);
+    background: #f9fafb;
+    color: #344054;
 }
 
 .lsm-tab.active {
-    background-color: var(--SmartThemeQuoteColor);
-    border-color: var(--SmartThemeQuoteColor);
+    background: #528bff;
+    color: #ffffff;
+    box-shadow: 0 1px 3px rgba(82, 139, 255, 0.3);
 }
 
 .lsm-editor-actions {
     display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.lsm-editor-actions .menu_button {
+    display: inline-flex;
+    align-items: center;
     gap: 5px;
+    padding: 7px 12px;
+    font-size: 0.85em;
+    font-weight: 500;
+    white-space: nowrap;
+    border-radius: 6px;
+    background: #ffffff;
+    border: 1px solid #d0d5dd;
+    color: #344054;
+    transition: all 0.2s ease;
+}
+
+.lsm-editor-actions .menu_button:hover {
+    background: #f9fafb;
+    border-color: #98a2b3;
+    color: #1a1a2e;
 }
 
 .lsm-editor-content {
     flex: 1;
     overflow: auto;
-    padding: 15px;
+    padding: 18px;
+    background: #ffffff;
 }
 
-/* 빈 상태 */
+/* ========== 빈 상태 ========== */
 .lsm-empty {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
-    color: var(--grey50);
-    font-style: italic;
+    color: #98a2b3;
+    font-size: 0.95em;
 }
 
-/* JSON 트리 뷰 */
+/* ========== JSON 트리 뷰 ========== */
 .lsm-tree-view {
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 0.9em;
-    line-height: 1.6;
+    font-size: 0.92em;
+    line-height: 1.7;
+    color: #1a1a2e;
 }
 
 .lsm-tree-row {
     display: flex;
-    align-items: flex-start;
-    gap: 5px;
-    padding: 2px 0;
-    padding-left: calc(var(--depth, 0) * 20px);
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    margin: 1px 0;
+    border-radius: 4px;
+    transition: background 0.1s ease;
 }
 
-.lsm-tree-row[data-depth="1"] { padding-left: 20px; }
-.lsm-tree-row[data-depth="2"] { padding-left: 40px; }
-.lsm-tree-row[data-depth="3"] { padding-left: 60px; }
-.lsm-tree-row[data-depth="4"] { padding-left: 80px; }
-.lsm-tree-row[data-depth="5"] { padding-left: 100px; }
+.lsm-tree-row[data-depth="1"] { padding-left: 26px; }
+.lsm-tree-row[data-depth="2"] { padding-left: 50px; }
+.lsm-tree-row[data-depth="3"] { padding-left: 74px; }
+.lsm-tree-row[data-depth="4"] { padding-left: 98px; }
+.lsm-tree-row[data-depth="5"] { padding-left: 122px; }
 
 .lsm-tree-row:hover {
-    background-color: var(--SmartThemeBorderColor);
-    border-radius: 3px;
+    background: #f0f4f8;
+}
+
+.lsm-tree-row:hover .lsm-actions {
+    opacity: 1;
 }
 
 .lsm-collapsible {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
+    padding: 2px 4px;
+    border-radius: 4px;
+    transition: background 0.1s;
+}
+
+.lsm-collapsible:hover {
+    background: #e5e7eb;
 }
 
 .lsm-toggle {
-    color: var(--grey50);
-    font-size: 0.8em;
+    color: #667085;
+    font-size: 0.7em;
     width: 12px;
+    text-align: center;
     user-select: none;
+    transition: transform 0.2s ease;
 }
 
 .lsm-tree-content {
@@ -273,185 +476,241 @@
 }
 
 .lsm-key {
-    color: #9cdcfe;
+    color: #0066cc;
+    font-weight: 500;
 }
 
 .lsm-colon {
-    color: var(--grey50);
-    margin: 0 5px;
+    color: #667085;
+    margin: 0 6px;
 }
 
 .lsm-comma {
-    color: var(--grey50);
+    color: #98a2b3;
 }
 
 .lsm-bracket {
-    color: var(--SmartThemeBodyColor);
+    color: #7c3aed;
+    font-weight: 600;
 }
 
 .lsm-count {
-    color: var(--grey50);
-    font-size: 0.8em;
-    margin-left: 5px;
-}
-
-/* 값 스타일 */
-.lsm-value {
-    cursor: default;
-}
-
-.lsm-value.lsm-string {
-    color: #ce9178;
-}
-
-.lsm-value.lsm-number {
-    color: #b5cea8;
-}
-
-.lsm-value.lsm-boolean {
-    color: #569cd6;
-}
-
-.lsm-value.lsm-null {
-    color: #569cd6;
+    color: #98a2b3;
+    font-size: 0.82em;
+    margin-left: 8px;
     font-style: italic;
 }
 
-/* 액션 버튼들 */
-.lsm-actions {
-    display: none;
-    gap: 3px;
-    margin-left: auto;
+/* ========== 값 타입별 스타일 ========== */
+.lsm-value {
+    cursor: default;
+    padding: 1px 5px;
+    border-radius: 3px;
 }
 
-.lsm-tree-row:hover .lsm-actions {
+.lsm-value.lsm-string {
+    color: #c41a16;
+    background: rgba(196, 26, 22, 0.08);
+}
+
+.lsm-value.lsm-number {
+    color: #1c7d4e;
+    background: rgba(28, 125, 78, 0.08);
+}
+
+.lsm-value.lsm-boolean {
+    color: #0066cc;
+    font-weight: 600;
+    background: rgba(0, 102, 204, 0.08);
+}
+
+.lsm-value.lsm-null {
+    color: #808080;
+    font-style: italic;
+    background: rgba(128, 128, 128, 0.08);
+}
+
+/* ========== 액션 버튼들 ========== */
+.lsm-actions {
     display: flex;
+    gap: 4px;
+    margin-left: auto;
+    opacity: 0;
+    transition: opacity 0.15s ease;
 }
 
 .lsm-edit-btn,
-.lsm-delete-btn,
-.lsm-add-btn {
-    padding: 2px 6px;
-    font-size: 0.75em;
+.lsm-delete-btn {
+    padding: 4px 8px;
+    font-size: 0.78em;
     border: none;
-    border-radius: 3px;
-    background-color: var(--SmartThemeBorderColor);
+    border-radius: 4px;
+    background: #e5e7eb;
     cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.2s;
+    transition: all 0.15s ease;
+    line-height: 1;
 }
 
-.lsm-edit-btn:hover,
-.lsm-delete-btn:hover,
-.lsm-add-btn:hover {
-    opacity: 1;
+.lsm-edit-btn:hover {
+    background: #d4e4fc;
+}
+
+.lsm-delete-btn:hover {
+    background: #fee4e2;
 }
 
 .lsm-add-btn {
     margin-left: 10px;
-    font-size: 0.7em;
+    padding: 3px 10px;
+    font-size: 0.82em;
+    border: 1px dashed #d0d5dd;
+    border-radius: 4px;
+    background: transparent;
+    color: #667085;
+    cursor: pointer;
+    transition: all 0.15s ease;
 }
 
-/* Raw 에디터 */
+.lsm-add-btn:hover {
+    border-color: #528bff;
+    color: #528bff;
+    background: #f0f6ff;
+}
+
+/* ========== Raw 에디터 ========== */
 .lsm-raw-editor {
     width: 100%;
     height: 100%;
-    min-height: 300px;
-    padding: 15px;
-    border: 1px solid var(--SmartThemeBorderColor);
-    border-radius: 5px;
-    background-color: var(--black30a);
-    color: var(--SmartThemeBodyColor);
+    min-height: 350px;
+    padding: 18px;
+    border: 1px solid #d0d5dd;
+    border-radius: 8px;
+    background: #fafbfc;
+    color: #1a1a2e;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    font-size: 0.9em;
-    line-height: 1.5;
+    font-size: 0.92em;
+    line-height: 1.6;
     resize: none;
     box-sizing: border-box;
+    transition: border-color 0.2s ease;
 }
 
 .lsm-raw-editor:focus {
     outline: none;
-    border-color: var(--SmartThemeQuoteColor);
+    border-color: #528bff;
+    box-shadow: 0 0 0 3px rgba(82, 139, 255, 0.15);
 }
 
-/* 팝업 스타일 */
+/* ========== 팝업 스타일 ========== */
 .lsm-edit-popup,
 .lsm-confirm-popup {
-    padding: 10px;
+    padding: 16px;
+    min-width: 420px;
 }
 
 .lsm-edit-popup h3,
 .lsm-confirm-popup h3 {
     margin-top: 0;
-    margin-bottom: 15px;
-    color: var(--SmartThemeBodyColor);
+    margin-bottom: 18px;
+    color: #1a1a2e;
+    font-size: 1.15em;
+    font-weight: 600;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .lsm-edit-field {
-    margin-bottom: 15px;
+    margin-bottom: 16px;
 }
 
 .lsm-edit-field label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: var(--SmartThemeBodyColor);
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #344054;
+    font-size: 0.92em;
 }
 
 .lsm-edit-field code {
-    background-color: var(--black30a);
-    padding: 2px 6px;
-    border-radius: 3px;
-    font-family: monospace;
+    background: #f0f4f8;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.88em;
+    color: #0066cc;
 }
 
 .lsm-edit-field input,
-.lsm-edit-field select,
-.lsm-edit-field textarea {
+.lsm-edit-field select {
     width: 100%;
-    padding: 8px 12px;
-    border: 1px solid var(--SmartThemeBorderColor);
-    border-radius: 5px;
-    background-color: var(--SmartThemeBlurTintColor);
-    color: var(--SmartThemeBodyColor);
-    font-family: inherit;
-    font-size: 0.95em;
+    padding: 11px 14px;
+    border: 1px solid #d0d5dd;
+    border-radius: 6px;
+    background: #ffffff;
+    color: #1a1a2e;
+    font-size: 0.92em;
     box-sizing: border-box;
+    transition: all 0.2s ease;
 }
 
 .lsm-edit-field textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d0d5dd;
+    border-radius: 6px;
+    background: #fafbfc;
+    color: #1a1a2e;
     font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
-    min-height: 100px;
+    font-size: 0.92em;
+    min-height: 110px;
     resize: vertical;
+    box-sizing: border-box;
+    line-height: 1.5;
+    transition: all 0.2s ease;
 }
 
 .lsm-edit-field input:focus,
 .lsm-edit-field select:focus,
 .lsm-edit-field textarea:focus {
     outline: none;
-    border-color: var(--SmartThemeQuoteColor);
+    border-color: #528bff;
+    box-shadow: 0 0 0 3px rgba(82, 139, 255, 0.15);
 }
 
 .lsm-warning {
-    color: #f0ad4e;
-    font-weight: bold;
+    color: #b54708;
+    font-weight: 600;
+    padding: 12px 14px;
+    background: #fffaeb;
+    border-radius: 6px;
+    border-left: 3px solid #f79009;
 }
 
-/* 설정 패널 */
+/* ========== 설정 패널 ========== */
 .lsm-settings {
-    padding: 10px 0;
+    padding: 12px 0;
 }
 
 .lsm-settings p {
-    margin-bottom: 15px;
-    color: var(--SmartThemeBodyColor);
+    margin-bottom: 16px;
+    color: #667085;
+    line-height: 1.5;
 }
 
-/* 스크롤바 스타일 */
+.lsm-settings .menu_button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    font-size: 0.95em;
+    font-weight: 500;
+}
+
+/* ========== 스크롤바 ========== */
 .lsm-key-list::-webkit-scrollbar,
 .lsm-editor-content::-webkit-scrollbar,
 .lsm-raw-editor::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
 }
 
 .lsm-key-list::-webkit-scrollbar-track,
@@ -463,26 +722,36 @@
 .lsm-key-list::-webkit-scrollbar-thumb,
 .lsm-editor-content::-webkit-scrollbar-thumb,
 .lsm-raw-editor::-webkit-scrollbar-thumb {
-    background-color: var(--SmartThemeBorderColor);
-    border-radius: 4px;
+    background-color: #d0d5dd;
+    border-radius: 3px;
 }
 
 .lsm-key-list::-webkit-scrollbar-thumb:hover,
 .lsm-editor-content::-webkit-scrollbar-thumb:hover,
 .lsm-raw-editor::-webkit-scrollbar-thumb:hover {
-    background-color: var(--grey50);
+    background-color: #98a2b3;
 }
 
-/* 반응형 */
-@media (max-width: 768px) {
+/* ========== 반응형 ========== */
+@media (max-width: 900px) {
     .lsm-main {
         flex-direction: column;
     }
     
     .lsm-sidebar {
         width: 100%;
-        max-height: 40%;
+        max-height: 35%;
         border-right: none;
-        border-bottom: 1px solid var(--SmartThemeBorderColor);
+        border-bottom: 1px solid #e5e7eb;
+    }
+    
+    .lsm-header {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .lsm-header-actions {
+        width: 100%;
+        justify-content: flex-end;
     }
 }

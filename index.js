@@ -13,6 +13,8 @@ let editMode = 'tree';
 let searchFilter = '';
 // JSON 에디터 상태
 let jsonEditorData = null;
+// 카테고리 접힘 상태 저장
+let collapsedCategories = new Set();
 
 /**
  * localStorage 키 목록 가져오기
@@ -196,6 +198,48 @@ function deleteValueByPath(obj, path) {
 }
 
 /**
+ * 키를 카테고리로 그룹화
+ */
+function groupKeysByCategory(keys) {
+    const groups = {};
+    const standalone = [];
+    
+    // 구분자 패턴: _, -, .
+    const separators = /[_\-\.]/;
+    
+    keys.forEach(key => {
+        const match = key.match(separators);
+        if (match) {
+            const separatorIndex = key.indexOf(match[0]);
+            const prefix = key.substring(0, separatorIndex);
+            const suffix = key.substring(separatorIndex + 1);
+            
+            // 접두사가 2글자 이상이고, 같은 접두사를 가진 키가 2개 이상인 경우만 그룹화
+            if (prefix.length >= 2) {
+                if (!groups[prefix]) {
+                    groups[prefix] = [];
+                }
+                groups[prefix].push({ key, suffix, fullKey: key });
+            } else {
+                standalone.push(key);
+            }
+        } else {
+            standalone.push(key);
+        }
+    });
+    
+    // 그룹이 1개만 있으면 standalone으로 이동
+    Object.keys(groups).forEach(prefix => {
+        if (groups[prefix].length < 2) {
+            groups[prefix].forEach(item => standalone.push(item.fullKey));
+            delete groups[prefix];
+        }
+    });
+    
+    return { groups, standalone: standalone.sort() };
+}
+
+/**
  * 키 목록 렌더링
  */
 function renderKeyList() {
@@ -207,23 +251,62 @@ function renderKeyList() {
         ? keys.filter(k => k.toLowerCase().includes(searchFilter.toLowerCase()))
         : keys;
     
+    const { groups, standalone } = groupKeysByCategory(filteredKeys);
+    
     let html = '';
-    filteredKeys.forEach(key => {
+    
+    // 그룹화된 키들 렌더링
+    Object.keys(groups).sort().forEach(prefix => {
+        const items = groups[prefix];
+        const isCollapsed = collapsedCategories.has(prefix);
+        html += `
+            <div class="lsm-category ${isCollapsed ? 'collapsed' : ''}" data-prefix="${escapeHtml(prefix)}">
+                <div class="lsm-category-header">
+                    <span class="lsm-category-toggle">${isCollapsed ? '▶' : '▼'}</span>
+                    <span class="lsm-category-name">${escapeHtml(prefix)}</span>
+                    <span class="lsm-category-count">${items.length}</span>
+                </div>
+                <div class="lsm-category-items">
+        `;
+        
+        items.forEach(item => {
+            const isSelected = item.fullKey === selectedKey;
+            const value = localStorage.getItem(item.fullKey);
+            let typeIcon = '"';
+            try {
+                const parsed = JSON.parse(value);
+                typeIcon = getTypeIcon(parsed);
+            } catch {}
+            
+            html += `
+                <div class="lsm-key-item ${isSelected ? 'selected' : ''}" data-key="${escapeHtml(item.fullKey)}">
+                    <span class="lsm-type-badge">${typeIcon}</span>
+                    <span class="lsm-key-name" title="${escapeHtml(item.fullKey)}">${escapeHtml(item.suffix)}</span>
+                    <span class="lsm-key-size">${formatBytes(value?.length || 0)}</span>
+                </div>
+            `;
+        });
+        
+        html += `
+                </div>
+            </div>
+        `;
+    });
+    
+    // 단독 키들 렌더링
+    standalone.forEach(key => {
         const isSelected = key === selectedKey;
         const value = localStorage.getItem(key);
-        let preview = '';
+        let typeIcon = '"';
         try {
             const parsed = JSON.parse(value);
-            const type = getValueType(parsed);
-            preview = `<span class="lsm-type-badge">${getTypeIcon(parsed)}</span>`;
-        } catch {
-            preview = `<span class="lsm-type-badge">"</span>`;
-        }
+            typeIcon = getTypeIcon(parsed);
+        } catch {}
         
         html += `
             <div class="lsm-key-item ${isSelected ? 'selected' : ''}" data-key="${escapeHtml(key)}">
-                ${preview}
-                <span class="lsm-key-name">${escapeHtml(key)}</span>
+                <span class="lsm-type-badge">${typeIcon}</span>
+                <span class="lsm-key-name" title="${escapeHtml(key)}">${escapeHtml(key)}</span>
                 <span class="lsm-key-size">${formatBytes(value?.length || 0)}</span>
             </div>
         `;
@@ -231,12 +314,33 @@ function renderKeyList() {
     
     container.innerHTML = html || '<div class="lsm-empty">항목이 없습니다</div>';
     
+    // 카테고리 접기/펼치기 이벤트
+    container.querySelectorAll('.lsm-category-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const category = header.closest('.lsm-category');
+            const prefix = category.dataset.prefix;
+            const toggle = header.querySelector('.lsm-category-toggle');
+            
+            if (category.classList.contains('collapsed')) {
+                category.classList.remove('collapsed');
+                collapsedCategories.delete(prefix);
+                toggle.textContent = '▼';
+            } else {
+                category.classList.add('collapsed');
+                collapsedCategories.add(prefix);
+                toggle.textContent = '▶';
+            }
+        });
+    });
+    
     // 키 선택 이벤트 바인딩
     container.querySelectorAll('.lsm-key-item').forEach(item => {
-        item.addEventListener('click', () => {
+        item.addEventListener('click', (e) => {
+            e.stopPropagation();
             selectedKey = item.dataset.key;
             renderKeyList();
             renderEditor();
+            updateEditorTitle();
         });
     });
 }
@@ -522,6 +626,7 @@ async function createNewKey() {
             selectedKey = newKey;
             renderKeyList();
             renderEditor();
+            updateEditorTitle();
             toastr.success('생성되었습니다');
         } catch (e) {
             // JSON이 아닌 경우 문자열로 저장
@@ -529,6 +634,7 @@ async function createNewKey() {
             selectedKey = newKey;
             renderKeyList();
             renderEditor();
+            updateEditorTitle();
             toastr.success('생성되었습니다');
         }
     }
@@ -557,6 +663,7 @@ async function deleteSelectedKey() {
         selectedKey = null;
         renderKeyList();
         renderEditor();
+        updateEditorTitle();
         toastr.success('삭제되었습니다');
     }
 }
@@ -670,6 +777,7 @@ async function openManagerPanel() {
                 <div class="lsm-header-actions">
                     <button id="lsm-export-btn" class="menu_button" title="전체 내보내기">📤 내보내기</button>
                     <button id="lsm-import-btn" class="menu_button" title="가져오기">📥 가져오기</button>
+                    <button id="lsm-clear-all-btn" class="menu_button lsm-danger-btn" title="전체 삭제">🗑️ 전체 삭제</button>
                 </div>
             </div>
             
@@ -692,7 +800,7 @@ async function openManagerPanel() {
                 <div class="lsm-editor">
                     <div class="lsm-editor-header">
                         <div class="lsm-editor-title">
-                            <span id="lsm-current-key">선택된 항목 없음</span>
+                            <span id="lsm-current-key" class="lsm-editor-title-empty">좌측에서 키를 선택하세요</span>
                         </div>
                         <div class="lsm-editor-tabs">
                             <button id="lsm-tree-tab" class="lsm-tab active">🌳 트리</button>
@@ -728,6 +836,7 @@ async function openManagerPanel() {
         document.getElementById('lsm-save-btn')?.addEventListener('click', saveRawEditor);
         document.getElementById('lsm-export-btn')?.addEventListener('click', exportAll);
         document.getElementById('lsm-import-btn')?.addEventListener('click', importData);
+        document.getElementById('lsm-clear-all-btn')?.addEventListener('click', clearAllData);
         
         // 탭 전환
         document.getElementById('lsm-tree-tab')?.addEventListener('click', () => {
@@ -746,9 +855,26 @@ async function openManagerPanel() {
         // 초기 렌더링
         renderKeyList();
         updateStats();
+        updateEditorTitle();
     }, 100);
     
     await popup.show();
+}
+
+/**
+ * 에디터 제목 업데이트
+ */
+function updateEditorTitle() {
+    const titleEl = document.getElementById('lsm-current-key');
+    if (!titleEl) return;
+    
+    if (selectedKey) {
+        titleEl.textContent = selectedKey;
+        titleEl.className = 'lsm-editor-title-full';
+    } else {
+        titleEl.textContent = '좌측에서 키를 선택하세요';
+        titleEl.className = 'lsm-editor-title-empty';
+    }
 }
 
 /**
@@ -787,6 +913,40 @@ async function renderSettings() {
     document.getElementById('lsm-open-manager')?.addEventListener('click', openManagerPanel);
 }
 
+/**
+ * 전체 삭제
+ */
+async function clearAllData() {
+    const totalKeys = localStorage.length;
+    
+    const popup = new Popup(`
+        <div class="lsm-confirm-popup">
+            <h3>⚠️ 전체 삭제</h3>
+            <p><strong>${totalKeys}개</strong>의 모든 localStorage 항목을 삭제합니다.</p>
+            <p class="lsm-warning">⚠️ 이 작업은 되돌릴 수 없습니다! 모든 확장 프로그램 설정이 초기화될 수 있습니다.</p>
+            <p>계속하시려면 아래에 <code>DELETE</code>를 입력하세요:</p>
+            <input type="text" id="lsm-confirm-delete" placeholder="DELETE 입력" style="width:100%;padding:8px;margin-top:8px;" />
+        </div>
+    `, POPUP_TYPE.CONFIRM);
+    
+    const result = await popup.show();
+    if (result === POPUP_RESULT.AFFIRMATIVE) {
+        const confirmInput = document.getElementById('lsm-confirm-delete');
+        if (confirmInput?.value === 'DELETE') {
+            localStorage.clear();
+            selectedKey = null;
+            collapsedCategories.clear();
+            renderKeyList();
+            renderEditor();
+            updateEditorTitle();
+            updateStats();
+            toastr.success('모든 항목이 삭제되었습니다');
+        } else {
+            toastr.warning('확인 텍스트가 일치하지 않습니다');
+        }
+    }
+}
+
 // jQuery 준비
 jQuery(async () => {
     // 설정 패널 생성
@@ -803,6 +963,19 @@ jQuery(async () => {
     
     $('#extensions_settings').append(settingsHtml);
     await renderSettings();
+    
+    // 마법봉 메뉴에 추가
+    const wandButton = `
+        <div id="lsm-wand-btn" class="list-group-item flex-container flexGap5" title="LocalStorage Manager">
+            <i class="fa-solid fa-database"></i>
+            <span>LocalStorage Manager</span>
+        </div>
+    `;
+    $('#extensionsMenu').append(wandButton);
+    $('#lsm-wand-btn').on('click', () => {
+        $('#extensionsMenuButton').trigger('click'); // 메뉴 닫기
+        openManagerPanel();
+    });
     
     console.log('[LocalStorage Manager] 확장 로드 완료');
 });
