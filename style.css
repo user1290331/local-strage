@@ -1,0 +1,488 @@
+/* LocalStorage Manager 확장 스타일 */
+
+/* 메인 컨테이너 */
+.lsm-container {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    min-height: 500px;
+    background-color: var(--SmartThemeBlurTintColor);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* 헤더 */
+.lsm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--SmartThemeBlurTintColor);
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+}
+
+.lsm-header h2 {
+    margin: 0;
+    font-size: 1.3em;
+    color: var(--SmartThemeBodyColor);
+}
+
+.lsm-header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* 메인 영역 */
+.lsm-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* 사이드바 */
+.lsm-sidebar {
+    width: 280px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--SmartThemeBorderColor);
+    background-color: var(--black30a);
+}
+
+.lsm-search {
+    padding: 10px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+}
+
+.lsm-search input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 5px;
+    background-color: var(--SmartThemeBlurTintColor);
+    color: var(--SmartThemeBodyColor);
+    font-size: 0.9em;
+}
+
+.lsm-search input:focus {
+    outline: none;
+    border-color: var(--SmartThemeQuoteColor);
+}
+
+.lsm-key-actions {
+    display: flex;
+    gap: 5px;
+    padding: 10px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+}
+
+.lsm-key-actions button {
+    flex: 1;
+    padding: 6px 10px;
+    font-size: 0.85em;
+}
+
+/* 키 목록 */
+.lsm-key-list {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.lsm-key-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.lsm-key-item:hover {
+    background-color: var(--SmartThemeBlurTintColor);
+}
+
+.lsm-key-item.selected {
+    background-color: var(--SmartThemeQuoteColor);
+    color: var(--SmartThemeBodyColor);
+}
+
+.lsm-key-item.selected .lsm-key-name,
+.lsm-key-item.selected .lsm-key-size {
+    color: inherit;
+}
+
+.lsm-type-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    font-size: 0.75em;
+    font-weight: bold;
+    border-radius: 4px;
+    background-color: var(--SmartThemeBorderColor);
+    color: var(--SmartThemeBodyColor);
+    flex-shrink: 0;
+}
+
+.lsm-key-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.9em;
+    color: var(--SmartThemeBodyColor);
+}
+
+.lsm-key-size {
+    font-size: 0.75em;
+    color: var(--grey50);
+    flex-shrink: 0;
+}
+
+/* 통계 */
+.lsm-stats {
+    padding: 10px;
+    font-size: 0.8em;
+    color: var(--grey50);
+    text-align: center;
+    border-top: 1px solid var(--SmartThemeBorderColor);
+    background-color: var(--SmartThemeBlurTintColor);
+}
+
+/* 에디터 영역 */
+.lsm-editor {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.lsm-editor-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 15px;
+    border-bottom: 1px solid var(--SmartThemeBorderColor);
+    background-color: var(--SmartThemeBlurTintColor);
+}
+
+.lsm-editor-title {
+    flex: 1;
+    font-weight: bold;
+    color: var(--SmartThemeBodyColor);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lsm-editor-tabs {
+    display: flex;
+    gap: 5px;
+}
+
+.lsm-tab {
+    padding: 6px 12px;
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 5px;
+    background-color: transparent;
+    color: var(--SmartThemeBodyColor);
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s;
+}
+
+.lsm-tab:hover {
+    background-color: var(--SmartThemeBorderColor);
+}
+
+.lsm-tab.active {
+    background-color: var(--SmartThemeQuoteColor);
+    border-color: var(--SmartThemeQuoteColor);
+}
+
+.lsm-editor-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.lsm-editor-content {
+    flex: 1;
+    overflow: auto;
+    padding: 15px;
+}
+
+/* 빈 상태 */
+.lsm-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--grey50);
+    font-style: italic;
+}
+
+/* JSON 트리 뷰 */
+.lsm-tree-view {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    line-height: 1.6;
+}
+
+.lsm-tree-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    padding: 2px 0;
+    padding-left: calc(var(--depth, 0) * 20px);
+}
+
+.lsm-tree-row[data-depth="1"] { padding-left: 20px; }
+.lsm-tree-row[data-depth="2"] { padding-left: 40px; }
+.lsm-tree-row[data-depth="3"] { padding-left: 60px; }
+.lsm-tree-row[data-depth="4"] { padding-left: 80px; }
+.lsm-tree-row[data-depth="5"] { padding-left: 100px; }
+
+.lsm-tree-row:hover {
+    background-color: var(--SmartThemeBorderColor);
+    border-radius: 3px;
+}
+
+.lsm-collapsible {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.lsm-toggle {
+    color: var(--grey50);
+    font-size: 0.8em;
+    width: 12px;
+    user-select: none;
+}
+
+.lsm-tree-content {
+    margin-left: 0;
+}
+
+.lsm-tree-content.collapsed {
+    display: none;
+}
+
+.lsm-key {
+    color: #9cdcfe;
+}
+
+.lsm-colon {
+    color: var(--grey50);
+    margin: 0 5px;
+}
+
+.lsm-comma {
+    color: var(--grey50);
+}
+
+.lsm-bracket {
+    color: var(--SmartThemeBodyColor);
+}
+
+.lsm-count {
+    color: var(--grey50);
+    font-size: 0.8em;
+    margin-left: 5px;
+}
+
+/* 값 스타일 */
+.lsm-value {
+    cursor: default;
+}
+
+.lsm-value.lsm-string {
+    color: #ce9178;
+}
+
+.lsm-value.lsm-number {
+    color: #b5cea8;
+}
+
+.lsm-value.lsm-boolean {
+    color: #569cd6;
+}
+
+.lsm-value.lsm-null {
+    color: #569cd6;
+    font-style: italic;
+}
+
+/* 액션 버튼들 */
+.lsm-actions {
+    display: none;
+    gap: 3px;
+    margin-left: auto;
+}
+
+.lsm-tree-row:hover .lsm-actions {
+    display: flex;
+}
+
+.lsm-edit-btn,
+.lsm-delete-btn,
+.lsm-add-btn {
+    padding: 2px 6px;
+    font-size: 0.75em;
+    border: none;
+    border-radius: 3px;
+    background-color: var(--SmartThemeBorderColor);
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.lsm-edit-btn:hover,
+.lsm-delete-btn:hover,
+.lsm-add-btn:hover {
+    opacity: 1;
+}
+
+.lsm-add-btn {
+    margin-left: 10px;
+    font-size: 0.7em;
+}
+
+/* Raw 에디터 */
+.lsm-raw-editor {
+    width: 100%;
+    height: 100%;
+    min-height: 300px;
+    padding: 15px;
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 5px;
+    background-color: var(--black30a);
+    color: var(--SmartThemeBodyColor);
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    resize: none;
+    box-sizing: border-box;
+}
+
+.lsm-raw-editor:focus {
+    outline: none;
+    border-color: var(--SmartThemeQuoteColor);
+}
+
+/* 팝업 스타일 */
+.lsm-edit-popup,
+.lsm-confirm-popup {
+    padding: 10px;
+}
+
+.lsm-edit-popup h3,
+.lsm-confirm-popup h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--SmartThemeBodyColor);
+}
+
+.lsm-edit-field {
+    margin-bottom: 15px;
+}
+
+.lsm-edit-field label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--SmartThemeBodyColor);
+}
+
+.lsm-edit-field code {
+    background-color: var(--black30a);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: monospace;
+}
+
+.lsm-edit-field input,
+.lsm-edit-field select,
+.lsm-edit-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--SmartThemeBorderColor);
+    border-radius: 5px;
+    background-color: var(--SmartThemeBlurTintColor);
+    color: var(--SmartThemeBodyColor);
+    font-family: inherit;
+    font-size: 0.95em;
+    box-sizing: border-box;
+}
+
+.lsm-edit-field textarea {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    min-height: 100px;
+    resize: vertical;
+}
+
+.lsm-edit-field input:focus,
+.lsm-edit-field select:focus,
+.lsm-edit-field textarea:focus {
+    outline: none;
+    border-color: var(--SmartThemeQuoteColor);
+}
+
+.lsm-warning {
+    color: #f0ad4e;
+    font-weight: bold;
+}
+
+/* 설정 패널 */
+.lsm-settings {
+    padding: 10px 0;
+}
+
+.lsm-settings p {
+    margin-bottom: 15px;
+    color: var(--SmartThemeBodyColor);
+}
+
+/* 스크롤바 스타일 */
+.lsm-key-list::-webkit-scrollbar,
+.lsm-editor-content::-webkit-scrollbar,
+.lsm-raw-editor::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lsm-key-list::-webkit-scrollbar-track,
+.lsm-editor-content::-webkit-scrollbar-track,
+.lsm-raw-editor::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.lsm-key-list::-webkit-scrollbar-thumb,
+.lsm-editor-content::-webkit-scrollbar-thumb,
+.lsm-raw-editor::-webkit-scrollbar-thumb {
+    background-color: var(--SmartThemeBorderColor);
+    border-radius: 4px;
+}
+
+.lsm-key-list::-webkit-scrollbar-thumb:hover,
+.lsm-editor-content::-webkit-scrollbar-thumb:hover,
+.lsm-raw-editor::-webkit-scrollbar-thumb:hover {
+    background-color: var(--grey50);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .lsm-main {
+        flex-direction: column;
+    }
+    
+    .lsm-sidebar {
+        width: 100%;
+        max-height: 40%;
+        border-right: none;
+        border-bottom: 1px solid var(--SmartThemeBorderColor);
+    }
+}
